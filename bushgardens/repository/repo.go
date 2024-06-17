@@ -1,7 +1,8 @@
 package repository
 
 import (
-	"bushgardens/entity"
+	"bush/entity"
+	"mime/multipart"
 )
 
 type Authorization interface {
@@ -11,8 +12,13 @@ type Authorization interface {
 	//UpdateUser(b string, m map[string]interface{}) error
 }
 
+type UploadImage interface {
+	UploadImage(userId string, file multipart.File) (string, error)
+}
+
 type Repository struct {
 	Authorization
+	UploadImage
 }
 
 func NewRepository() (*Repository, error) {
@@ -20,13 +26,12 @@ func NewRepository() (*Repository, error) {
 	if err != nil {
 		return nil, err
 	}
+	storage, err := NewStorage()
+	if err != nil {
+		return nil, err
+	}
 	return &Repository{
 		Authorization: store,
+		UploadImage:   storage,
 	}, nil
 }
-
-//func NewRepository() *Repository {
-//	return &Repository{
-//		Authorization: NewStore(),
-//	}
-//}
