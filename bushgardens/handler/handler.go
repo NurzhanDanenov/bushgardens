@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"bushgardens/service"
+	"bush/service"
 	"github.com/gin-gonic/gin"
 )
 
